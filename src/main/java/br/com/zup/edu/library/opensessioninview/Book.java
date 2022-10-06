@@ -1,4 +1,4 @@
-package br.com.zup.edu.library.samples.books;
+package br.com.zup.edu.library.opensessioninview;
 
 import org.hibernate.validator.constraints.ISBN;
 

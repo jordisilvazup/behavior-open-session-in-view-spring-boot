@@ -7,10 +7,10 @@ import org.springframework.boot.autoconfigure.web.servlet.error.ErrorMvcAutoConf
 
 @SpringBootApplication
 @EnableAutoConfiguration(exclude = ErrorMvcAutoConfiguration.class) // Needed by Zalando Problem lib
-public class BehavioropensessionviewApplication {
+public class BehaviorOpenSessionViewApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(BehavioropensessionviewApplication.class, args);
+		SpringApplication.run(BehaviorOpenSessionViewApplication.class, args);
 	}
 
 }

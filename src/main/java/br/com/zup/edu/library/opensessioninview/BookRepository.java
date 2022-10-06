@@ -1,4 +1,4 @@
-package br.com.zup.edu.library.samples.books;
+package br.com.zup.edu.library.opensessioninview;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -13,6 +13,8 @@ import java.util.Optional;
     to define at the class level that transactions are read-only.
     reference: https://vladmihalcea.com/spring-transaction-best-practices/
  */
-public interface BookRepository extends JpaRepository<Book,Long> {
+public interface BookRepository extends JpaRepository<Book, Long> {
     Optional<Book> findByIsbn(String isbn);
+
+    boolean existsByIsbn(String isbn);
 }
