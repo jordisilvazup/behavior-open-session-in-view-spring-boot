@@ -10,7 +10,7 @@ import org.springframework.test.context.TestPropertySource;
 import javax.sql.DataSource;
 import java.sql.Connection;
 
-import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.Matchers.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -79,6 +79,10 @@ class OpenSessionInViewEnabledControllerTest extends SpringBootIntegrationTest {
                     jsonPath(
                             "$.detail",
                             containsString("JDBCConnectionException: Unable to acquire JDBC Connection")
+                    ),
+                    jsonPath(
+                            "$.stacktrace[0]",
+                            containsString("org.springframework.orm.jpa.JpaTransactionManager.doBegin(JpaTransactionManager.java:467)")
                     )
             );
 
@@ -98,6 +102,10 @@ class OpenSessionInViewEnabledControllerTest extends SpringBootIntegrationTest {
                     jsonPath(
                             "$.detail",
                             containsString("JDBCConnectionException: Unable to acquire JDBC Connection")
+                    ),
+                    jsonPath(
+                            "$.stacktrace[0]",
+                            containsString("org.springframework.orm.jpa.JpaTransactionManager.doRollback(JpaTransactionManager.java:593)")
                     )
             );
 

@@ -63,24 +63,6 @@ class OpenSessionInViewDisabledControllerTest extends SpringBootIntegrationTest 
 
     }
 
-    @Test
-    @DisplayName("Transactional Endpoint without data access")
-    void name6() throws Exception {
-
-        try (Connection connection = dataSource.getConnection()) {
-
-            mockMvc.perform(
-                    get("/transactional-endpoint-without-data-access")
-            ).andExpectAll(
-                    status().is5xxServerError(),
-                    jsonPath(
-                            "$.detail",
-                            containsString("JDBCConnectionException: Unable to acquire JDBC Connection")
-                    )
-            );
-
-        }
-    }
 
     @Test
     @DisplayName("Transactional Read-Only Endpoint without data access")
@@ -96,11 +78,38 @@ class OpenSessionInViewDisabledControllerTest extends SpringBootIntegrationTest 
                             "$.detail",
                             containsString("JDBCConnectionException: Unable to acquire JDBC Connection")
                     )
+                    ,
+                    jsonPath(
+                            "$.stacktrace[0]",
+                            containsString("org.springframework.orm.jpa.JpaTransactionManager.doBegin(JpaTransactionManager.java:467)")
+                    )
             );
 
         }
     }
 
+    @Test
+    @DisplayName("Transactional Endpoint without data access")
+    void name6() throws Exception {
+
+        try (Connection connection = dataSource.getConnection()) {
+
+            mockMvc.perform(
+                    get("/transactional-endpoint-without-data-access")
+            ).andExpectAll(
+                    status().is5xxServerError(),
+                    jsonPath(
+                            "$.detail",
+                            containsString("JDBCConnectionException: Unable to acquire JDBC Connection")
+                    ),
+                    jsonPath(
+                            "$.stacktrace[0]",
+                            containsString("org.springframework.orm.jpa.JpaTransactionManager.doRollback(JpaTransactionManager.java:593)")
+                    )
+            );
+
+        }
+    }
 
     @Test
     @DisplayName("Not Transactional Endpoint without data access")
