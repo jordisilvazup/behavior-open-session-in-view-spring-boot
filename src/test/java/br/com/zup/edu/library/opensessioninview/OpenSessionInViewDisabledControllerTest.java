@@ -22,6 +22,19 @@ class OpenSessionInViewDisabledControllerTest extends SpringBootIntegrationTest 
     @Autowired
     private DataSource dataSource;
 
+    @Test
+    @DisplayName("Not Transactional Endpoint without data access")
+    void name4() throws Exception {
+
+        try (Connection connection = dataSource.getConnection()) {
+            mockMvc.perform(
+                            get("/not-transactional-endpoint-without-data-access")
+                    )
+                    .andExpect(
+                            status().isOk()
+                    );
+        }
+    }
 
     @Test
     @DisplayName("Transactional Endpoint with data access")
@@ -111,17 +124,5 @@ class OpenSessionInViewDisabledControllerTest extends SpringBootIntegrationTest 
         }
     }
 
-    @Test
-    @DisplayName("Not Transactional Endpoint without data access")
-    void name4() throws Exception {
 
-        try (Connection connection = dataSource.getConnection()) {
-            mockMvc.perform(
-                            get("/not-transactional-endpoint-without-data-access")
-                    )
-                    .andExpect(
-                            status().isOk()
-                    );
-        }
-    }
 }

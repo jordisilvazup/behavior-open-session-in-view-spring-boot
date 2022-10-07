@@ -4,13 +4,12 @@ import br.com.zup.edu.library.base.SpringBootIntegrationTest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.TestPropertySource;
 
 import javax.sql.DataSource;
 import java.sql.Connection;
 
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.containsString;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -20,10 +19,24 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
         "spring.datasource.hikari.maximum-pool-size = 1",
         "spring.datasource.hikari.connection-timeout = 500"
 })
-@DirtiesContext
 class OpenSessionInViewEnabledControllerTest extends SpringBootIntegrationTest {
     @Autowired
     private DataSource dataSource;
+
+
+    @Test
+    @DisplayName("Not Transactional Endpoint without data access")
+    void name4() throws Exception {
+
+        try (Connection connection = dataSource.getConnection()) {
+            mockMvc.perform(
+                            get("/not-transactional-endpoint-without-data-access")
+                    )
+                    .andExpect(
+                            status().isOk()
+                    );
+        }
+    }
 
 
     @Test
@@ -112,17 +125,5 @@ class OpenSessionInViewEnabledControllerTest extends SpringBootIntegrationTest {
         }
     }
 
-    @Test
-    @DisplayName("Not Transactional Endpoint without data access")
-    void name4() throws Exception {
 
-        try (Connection connection = dataSource.getConnection()) {
-            mockMvc.perform(
-                            get("/not-transactional-endpoint-without-data-access")
-                    )
-                    .andExpect(
-                            status().isOk()
-                    );
-        }
-    }
 }

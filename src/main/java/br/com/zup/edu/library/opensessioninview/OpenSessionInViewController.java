@@ -15,7 +15,7 @@ public class OpenSessionInViewController {
 
     @Transactional
     @GetMapping("/transactional-endpoint-with-data-access")
-    public ResponseEntity<?> endPoint1() throws InterruptedException {
+    public ResponseEntity<?> endPoint1() {
 
         List<Book> all = repository.findAll();
 
@@ -23,7 +23,7 @@ public class OpenSessionInViewController {
     }
 
     @GetMapping("/not-transactional-endpoint-with-data-access")
-    public ResponseEntity<?> notTransactionalEndPoint1() throws InterruptedException {
+    public ResponseEntity<?> notTransactionalEndPoint1() {
 
         List<Book> all = repository.findAll();
 
@@ -33,7 +33,7 @@ public class OpenSessionInViewController {
 
     @Transactional
     @GetMapping("/transactional-endpoint-without-data-access")
-    public ResponseEntity<?> endPoint2() throws InterruptedException {
+    public ResponseEntity<?> endPoint2()  {
         System.out.println("Aqui não acessa ao RDBMS");
 
         return ResponseEntity.ok().build();
@@ -41,14 +41,14 @@ public class OpenSessionInViewController {
 
     @Transactional(readOnly = true)
     @GetMapping("/transactional-readonly-endpoint-without-data-access")
-    public ResponseEntity<?> redendPoint2() throws InterruptedException {
+    public ResponseEntity<?> redendPoint2()  {
         System.out.println("Aqui não acessa ao RDBMS");
 
         return ResponseEntity.ok().build();
     }
 
     @GetMapping("/not-transactional-endpoint-without-data-access")
-    public ResponseEntity<?> notEndPoint2() throws InterruptedException {
+    public ResponseEntity<?> notEndPoint2()  {
         System.out.println("Aqui não acessa ao RDBMS");
 
         return ResponseEntity.ok().build();
