@@ -39,7 +39,7 @@ public class OpenSessionInViewController {
         return ResponseEntity.ok().build();
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     @GetMapping("/transactional-readonly-endpoint-without-data-access")
     public ResponseEntity<?> redendPoint2() throws InterruptedException {
         System.out.println("Aqui não acessa ao RDBMS");
